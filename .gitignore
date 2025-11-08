@@ -1,0 +1,43 @@
+# Build outputs
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.tmp
+*.log
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Node modules (if any)
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Test results
+TestResults/
+*.trx
+
+# NuGet
+packages/
+*.nupkg
+
+# Entity Framework
+Migrations/*.cs
+!Migrations/20251107072503_Initial.cs
+!Migrations/20251107072503_Initial.Designer.cs
+!Migrations/ApplicationDbContextModelSnapshot.cs

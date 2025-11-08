@@ -1,0 +1,14 @@
+{
+  "BaseUrl": "http://localhost:5281",
+  "AddRightsToRoleEndpoint": "/api/Dev/AddRightsToRole",
+  "AddEndpointsAsRightsEndpoint": "/api/Dev/AddEndpointsAsRights",
+  "AddRolesToUserEndpoint": "/api/Dev/AddRolesToUser",
+  "CreateRightEndpoint": "/api/Dev/CreateRight",
+  "CreateRoleEndpoint": "/api/Dev/CreateRole",
+  "CreateUserEndpoint": "/api/Dev/CreateUser",
+  "GetProjectEndpointsEndpoint": "/api/Dev/GetProjectEndpoints",
+  "GetRightsByRoleIdEndpoint": "/api/Dev/GetRightsByRoleId",
+  "GetRightsByUserIdEndpoint": "/api/Dev/GetRightsByUserId",
+  "GetRightsFromDBEndpoint": "/api/Dev/GetRightsFromDB",
+  "GetRolesByUserIdEndpoint": "/api/Dev/GetRolesByUserId"
+}

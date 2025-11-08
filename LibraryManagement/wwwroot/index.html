@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-container" class="container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Username" required autocomplete="username">
+            <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+            <button type="submit">Login</button>
+        </form>
+        <div id="login-message"></div>
+    </div>
+
+    <div id="admin-panel" class="container hidden">
+        <header>
+            <h1>Library Management Admin Panel</h1>
+            <div id="user-info">
+                <span id="current-user">Current User: Loading...</span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+            <button class="nav-btn" data-section="students" data-permission="ManageStudents">Students</button>
+            <button class="nav-btn" data-section="books" data-permission="ManageBooks">Books</button>
+            <button class="nav-btn" data-section="users" data-permission="ManageUsers">Users</button>
+            <button class="nav-btn" data-section="loans" data-permission="ManageLoans">Loans</button>
+            <button class="nav-btn" data-section="roles" data-permission="ManageRoles">Roles</button>
+        </nav>
+
+        <main>
+            <section id="dashboard" class="section">
+                <h2>Dashboard</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Total Students</h3>
+                        <p id="total-students">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Books</h3>
+                        <p id="total-books">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Loans</h3>
+                        <p id="active-loans">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="students" class="section hidden">
+                <h2>Students Management</h2>
+                <button id="add-student-btn" data-permission="ManageStudents">Add Student</button>
+                <table id="students-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="books" class="section hidden">
+                <h2>Books Management</h2>
+                <button id="add-book-btn" data-permission="ManageBooks">Add Book</button>
+                <table id="books-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Available</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="users" class="section hidden">
+                <h2>Users Management</h2>
+                <div class="user-actions">
+                    <button id="add-user-btn" data-permission="ManageUsers">Add User</button>
+                    <button id="delete-selected-users-btn" class="delete" disabled data-permission="ManageUsers">Delete Selected</button>
+                </div>
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all-users"></th>
+                            <th>ID</th>
+                            <th>Display Name</th>
+                            <th>Username</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="loans" class="section hidden">
+                <h2>Loans Management</h2>
+                <button id="add-loan-btn" data-permission="ManageLoans">Add Loan</button>
+                <table id="loans-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Book</th>
+                            <th>Borrow Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="roles" class="section hidden">
+                <h2>Roles Management</h2>
+                <div class="role-actions">
+                    <button id="add-role-btn" data-permission="ManageRoles">Add Role</button>
+                    <button id="delete-selected-roles-btn" class="delete" disabled data-permission="ManageRoles">Delete Selected</button>
+                </div>
+                <table id="roles-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all-roles"></th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Rights</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals for CRUD operations -->
+    <div id="student-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="student-modal-title">Add Student</h2>
+            <form id="student-form">
+                <input type="hidden" id="student-id">
+                <input type="text" id="student-first-name" placeholder="First Name" required>
+                <input type="text" id="student-last-name" placeholder="Last Name" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="book-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="book-modal-title">Add Book</h2>
+            <form id="book-form">
+                <input type="hidden" id="book-id">
+                <input type="text" id="book-title" placeholder="Title" required>
+                <input type="text" id="book-author" placeholder="Author" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="user-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="user-modal-title">Add User</h2>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <input type="text" id="user-display-name" placeholder="Display Name" required>
+                <input type="text" id="user-username" placeholder="Username" required autocomplete="username">
+                <input type="password" id="user-password" name="password" autocomplete="new-password" placeholder="Password (leave empty in edit mode)">
+                <select id="user-role" required>
+                    <option value="">Select Role</option>
+                </select>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loan-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="loan-modal-title">Add Loan</h2>
+            <form id="loan-form">
+                <input type="hidden" id="loan-id">
+                <select id="loan-student" required>
+                    <option value="">Select Student</option>
+                </select>
+                <select id="loan-book" required>
+                    <option value="">Select Book</option>
+                </select>
+                <label for="loan-borrow-date">Borrow Date:</label>
+                <input type="date" id="loan-borrow-date" required>
+                <label for="loan-return-date">Return Date:</label>
+                <input type="date" id="loan-return-date" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="role-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="role-modal-title">Add Role</h2>
+            <form id="role-form">
+                <input type="hidden" id="role-id">
+                <input type="text" id="role-name" placeholder="Role Name" required>
+                <div id="rights-section">
+                    <h3>Assign Rights:</h3>
+                    <div id="rights-list"></div>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
