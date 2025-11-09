@@ -28,11 +28,11 @@
 
         <nav>
             <button class="nav-btn active" data-section="dashboard">Dashboard</button>
-            <button class="nav-btn" data-section="students" data-permission="ManageStudents">Students</button>
-            <button class="nav-btn" data-section="books" data-permission="ManageBooks">Books</button>
-            <button class="nav-btn" data-section="users" data-permission="ManageUsers">Users</button>
-            <button class="nav-btn" data-section="loans" data-permission="ManageLoans">Loans</button>
-            <button class="nav-btn" data-section="roles" data-permission="ManageRoles">Roles</button>
+            <button class="nav-btn" data-section="students" data-permission="CreateStudent,DeleteStudent,GetStudent,GetStudents,UpdateStudent">Students</button>
+            <button class="nav-btn" data-section="books" data-permission="CreateBook,DeleteBook,GetBook,GetBooks,UpdateBook">Books</button>
+            <button class="nav-btn" data-section="users" data-permission="GetUsers,UpdateUser,GetUser,DeleteUser,CreateUser">Users</button>
+            <button class="nav-btn" data-section="loans" data-permission="BorrowBook,ReturnBook,DeleteLoan,GetLoans">Loans</button>
+            <button class="nav-btn" data-section="roles" data-permission="CreateRole,DeleteRole,GetRole,GetRoles,UpdateRole">Roles</button>
         </nav>
 
         <main>
@@ -56,7 +56,7 @@
 
             <section id="students" class="section hidden">
                 <h2>Students Management</h2>
-                <button id="add-student-btn" data-permission="ManageStudents">Add Student</button>
+                <button id="add-student-btn" data-permission="CreateStudent">Add Student</button>
                 <table id="students-table">
                     <thead>
                         <tr>
@@ -72,7 +72,7 @@
 
             <section id="books" class="section hidden">
                 <h2>Books Management</h2>
-                <button id="add-book-btn" data-permission="ManageBooks">Add Book</button>
+                <button id="add-book-btn" data-permission="CreateBook">Add Book</button>
                 <table id="books-table">
                     <thead>
                         <tr>
@@ -90,8 +90,8 @@
             <section id="users" class="section hidden">
                 <h2>Users Management</h2>
                 <div class="user-actions">
-                    <button id="add-user-btn" data-permission="ManageUsers">Add User</button>
-                    <button id="delete-selected-users-btn" class="delete" disabled data-permission="ManageUsers">Delete Selected</button>
+                    <button id="add-user-btn" data-permission="CreateUser">Add User</button>
+                    <button id="delete-selected-users-btn" class="delete" disabled data-permission="DeleteUser">Delete Selected</button>
                 </div>
                 <table id="users-table">
                     <thead>
@@ -110,7 +110,7 @@
 
             <section id="loans" class="section hidden">
                 <h2>Loans Management</h2>
-                <button id="add-loan-btn" data-permission="ManageLoans">Add Loan</button>
+                <button id="add-loan-btn" data-permission="BorrowBook">Add Loan</button>
                 <table id="loans-table">
                     <thead>
                         <tr>
@@ -130,8 +130,8 @@
             <section id="roles" class="section hidden">
                 <h2>Roles Management</h2>
                 <div class="role-actions">
-                    <button id="add-role-btn" data-permission="ManageRoles">Add Role</button>
-                    <button id="delete-selected-roles-btn" class="delete" disabled data-permission="ManageRoles">Delete Selected</button>
+                    <button id="add-role-btn" data-permission="CreateRole">Add Role</button>
+                    <button id="delete-selected-roles-btn" class="delete" disabled data-permission="DeleteRole">Delete Selected</button>
                 </div>
                 <table id="roles-table">
                     <thead>

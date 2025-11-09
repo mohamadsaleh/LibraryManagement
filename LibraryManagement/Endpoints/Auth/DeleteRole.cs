@@ -29,7 +29,7 @@ public static class DeleteRole
 
             return Results.NoContent();
         })
-        .RequireAuthorization()
+        .RequireEndpointName()
         .WithName("DeleteRole")
         .WithOpenApi();
     }

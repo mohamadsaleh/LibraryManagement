@@ -7,29 +7,29 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.add('hidden');
     });
 
-    // Show JWT token for debugging
-    if (token) {
-        console.log('JWT Token:', token);
-        console.log('Decoded payload:', JSON.parse(atob(token.split('.')[1])));
-        // Test API call with token
-        fetch('/api/auth/me', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(response => {
-            console.log('API Response status:', response.status);
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(`HTTP ${response.status}`);
-            }
-        })
-        .then(data => {
-            console.log('API Response data:', data);
-            console.log('userHasRoles[0]:', data.userHasRoles ? data.userHasRoles[0] : 'undefined');
-            console.log('role:', data.userHasRoles && data.userHasRoles[0] ? data.userHasRoles[0].role : 'undefined');
-        })
-        .catch(error => console.error('API call failed:', error));
-    }
+    //// Show JWT token for debugging
+    //if (token) {
+    //    //console.log('JWT Token:', token);
+    //    //console.log('Decoded payload:', JSON.parse(atob(token.split('.')[1])));
+    //    // Test API call with token
+    //    fetch('/api/auth/me', {
+    //        headers: { 'Authorization': `Bearer ${token}` }
+    //    })
+    //    .then(response => {
+    //        console.log('API Response status:', response.status);
+    //        if (response.ok) {
+    //            return response.json();
+    //        } else {
+    //            throw new Error(`HTTP ${response.status}`);
+    //        }
+    //    })
+    //    .then(data => {
+    //        //console.log('API Response data:', data);
+    //        //console.log('userHasRoles[0]:', data.userHasRoles ? data.userHasRoles[0] : 'undefined');
+    //        //console.log('role:', data.userHasRoles && data.userHasRoles[0] ? data.userHasRoles[0].role : 'undefined');
+    //    })
+    //    .catch(error => console.error('API call failed:', error));
+    //}
 
     if (token) {
         // Load user rights from API when page loads with existing token
@@ -51,60 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         showLogin();
     }
-
-    // Define loadUserRights function
-    async function loadUserRights() {
-        try {
-            const rightsResponse = await fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            if (rightsResponse.ok) {
-                const userData = await rightsResponse.json();
-                console.log('User data from API:', userData); // Debug log
-
-                // Extract rights from user data
-                userRights = [];
-                if (userData.userHasRoles) {
-                    console.log('Processing userHasRoles:', userData.userHasRoles);
-                    userData.userHasRoles.forEach(userRole => {
-                        console.log('Processing userRole:', userRole);
-                        if (userRole.role && userRole.role.roleHasRights) {
-                            console.log('Found roleHasRights:', userRole.role.roleHasRights);
-                            userRole.role.roleHasRights.forEach(roleRight => {
-                                console.log('Processing roleRight:', roleRight);
-                                if (roleRight.name) {
-                                    userRights.push(roleRight.name);
-                                    console.log('Added right:', roleRight.name);
-                                } else {
-                                    console.log('No name property in roleRight:', roleRight);
-                                }
-                            });
-                        } else {
-                            console.log('No roleHasRights found in userRole:', userRole);
-                        }
-                    });
-                } else {
-                    console.log('No userHasRoles found in userData');
-                }
-
-                console.log('Final user rights from API:', userRights); // Debug log
-
-                // Apply permissions after loading rights
-                applyPermissions();
-                return true; // Success
-            } else {
-                console.error('Failed to get user rights from API');
-                userRights = [];
-                return false; // Failure
-            }
-        } catch (error) {
-            console.error('Error fetching user rights:', error);
-            userRights = [];
-            return false; // Failure
-        }
-    }
-
     // Login form
     console.log('Setting up login form event listener');
     document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -172,6 +118,58 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Define loadUserRights function
+async function loadUserRights() {
+    try {
+        const rightsResponse = await fetch('/api/auth/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (rightsResponse.ok) {
+            const userData = await rightsResponse.json();
+            //console.log('User data from API:', userData); // Debug log
+
+            // Extract rights from user data
+            userRights = [];
+            if (userData.userHasRoles) {
+                //console.log('Processing userHasRoles:', userData.userHasRoles);
+                userData.userHasRoles.forEach(userRole => {
+                    //console.log('Processing userRole:', userRole);
+                    if (userRole.role && userRole.role.roleHasRights) {
+                        //console.log('Found roleHasRights:', userRole.role.roleHasRights);
+                        userRole.role.roleHasRights.forEach(roleRight => {
+                            //console.log('Processing roleRight:', roleRight);
+                            if (roleRight.name) {
+                                userRights.push(roleRight.name);
+                                //console.log('Added right:', roleRight.name);
+                            } else {
+                                //console.log('No name property in roleRight:', roleRight);
+                            }
+                        });
+                    } else {
+                        //console.log('No roleHasRights found in userRole:', userRole);
+                    }
+                });
+            } else {
+                //console.log('No userHasRoles found in userData');
+            }
+
+            //console.log('Final user rights from API:', userRights); // Debug log
+
+            // Apply permissions after loading rights
+            applyPermissions();
+            return true; // Success
+        } else {
+            console.error('Failed to get user rights from API');
+            userRights = [];
+            return false; // Failure
+        }
+    } catch (error) {
+        console.error('Error fetching user rights:', error);
+        userRights = [];
+        return false; // Failure
+    }
+}
 function showLogin() {
     document.getElementById('login-container').classList.remove('hidden');
     document.getElementById('admin-panel').classList.add('hidden');
@@ -328,8 +326,8 @@ async function loadStudents() {
                         <td>${student.firstName}</td>
                         <td>${student.lastName}</td>
                         <td>
-                            <button class="edit" onclick="editStudent(${student.id})">Edit</button>
-                            <button class="delete" onclick="deleteStudent(${student.id})">Delete</button>
+                            <button class="edit" data-permission="UpdateStudent" onclick="editStudent(${student.id})">Edit</button>
+                            <button class="delete" data-permission="DeleteStudent" onclick="deleteStudent(${student.id})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -339,6 +337,8 @@ async function loadStudents() {
     } catch (error) {
         console.error('Failed to load students', error);
     }
+    console.log("permition to apply");
+    applyPermissions();
 }
 
 async function loadBooks() {
@@ -360,8 +360,8 @@ async function loadBooks() {
                         <td>${book.author}</td>
                         <td>${book.isAvailable ? 'Yes' : 'No'}</td>
                         <td>
-                            <button class="edit" onclick="editBook(${book.id})">Edit</button>
-                            <button class="delete" onclick="deleteBook(${book.id})">Delete</button>
+                            <button class="edit" data-permission="UpdateBook" onclick="editBook(${book.id})">Edit</button>
+                            <button class="delete" data-permission="DeleteBook" onclick="deleteBook(${book.id})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -371,6 +371,7 @@ async function loadBooks() {
     } catch (error) {
         console.error('Failed to load books', error);
     }
+    applyPermissions();
 }
 
 async function loadUsers() {
@@ -410,6 +411,7 @@ async function loadUsers() {
     } catch (error) {
         console.error('Failed to load users', error);
     }
+    applyPermissions();
 }
 
 async function loadLoans() {
@@ -434,8 +436,8 @@ async function loadLoans() {
                         <td>${loan.returnDate ? new Date(loan.returnDate).toLocaleDateString() : '-'}</td>
                         <td>${status}</td>
                         <td>
-                            ${!loan.returnDate ? `<button class="edit" onclick="returnBook(${loan.id})">Return</button>` : ''}
-                            <button class="delete" onclick="deleteLoan(${loan.id})">Delete</button>
+                            ${!loan.returnDate ? `<button class="edit" data-permission="ReturnBook" onclick="returnBook(${loan.id})">Return</button>` : ''}
+                            <button class="delete" data-permission="DeleteLoan" onclick="deleteLoan(${loan.id})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -445,6 +447,7 @@ async function loadLoans() {
     } catch (error) {
         console.error('Failed to load loans', error);
     }
+    applyPermissions();
 }
 
 function openModal(modalId, title) {
@@ -908,8 +911,8 @@ async function loadRoles() {
                         <td>${role.name}</td>
                         <td>${rights}</td>
                         <td>
-                            <button class="edit" onclick="editRole(${role.id})">Edit</button>
-                            <button class="delete" onclick="deleteRole(${role.id})">Delete</button>
+                            <button class="edit" data-permission="UpdateRole" onclick="editRole(${role.id})">Edit</button>
+                            <button class="delete" data-permission="DeleteRole" onclick="deleteRole(${role.id})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -924,6 +927,7 @@ async function loadRoles() {
     } catch (error) {
         console.error('Failed to load roles', error);
     }
+    applyPermissions();
 }
 
 async function loadRolesForUser() {

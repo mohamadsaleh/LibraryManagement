@@ -41,3 +41,6 @@ Migrations/*.cs
 !Migrations/20251107072503_Initial.cs
 !Migrations/20251107072503_Initial.Designer.cs
 !Migrations/ApplicationDbContextModelSnapshot.cs
+
+#kilocode.ai files
+.kilocode/
