@@ -74,6 +74,7 @@ app.RegisterLoanEndpoints();
 app.RegisterUserEndpoints();
 app.RegisterDevEndpoints();
 
+app.UseDeveloperExceptionPage();
 
 app.Run();
 //var task = app.RunAsync();
