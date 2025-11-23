@@ -16,6 +16,7 @@ public static class DevExtensions
         app.MapGetRightsByUserId();
         app.MapGetRightsFromDB();
         app.MapGetRolesByUserId();
+        app.MapMigrateConnectedDB();
     }
 }
 
