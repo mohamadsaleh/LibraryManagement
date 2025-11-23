@@ -8,7 +8,7 @@ public static class MigrateConnectedDB
 {
     public static void MapMigrateConnectedDB(this WebApplication app)
     {
-        app.MapGet("/api/Dev/MigrateConnectedDB", async ([FromQuery] int userId, ApplicationDbContext db) =>
+        app.MapGet("/api/Dev/MigrateConnectedDB", async (ApplicationDbContext db) =>
         {
             db.Database.Migrate();
 
